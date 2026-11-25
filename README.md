@@ -21,3 +21,27 @@
 - **Low:** commit pinning uses a plain-text file, trivially spoofed.
 
 what this is not the cracked version totally
+
+
+## CatVape External (injector project)
+
+`external/` contains a buildable Windows C++ project that embeds `CatVape-Injectable.lua` and injects it into Roblox through a bridge DLL.
+
+- `CatVape-Injectable.lua` - single-file injectable build generated from `src/` (paste into any executor).
+- `external/` - Windows injector/loader project (`CatVapeExternal.exe` + `CatVapeBridge.dll`).
+
+Build the external on Windows:
+
+```bat
+cd external
+build.bat
+```
+
+The execution bridge is intentionally stubbed at `external/src/bridge/execute.cpp` - wire your Luau execution method there. See `external/README.md` for full details.
+
+Regenerate artifacts after changing `src/`:
+
+```bash
+python3 scripts/build_injectable.py
+python3 external/tools/embed_payload.py
+```
