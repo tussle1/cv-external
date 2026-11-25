@@ -1,24 +1,24 @@
-# CatVape External
+# catvape external
 
-A Windows injector project that embeds the CatVape Luau payload and delivers it into a running Roblox process through an injected bridge DLL.
+this is a windows project that puts the catvape script into roblox with its own injector exe and dll
 
-This is **option 2**: a complete, buildable project with a clean execution-bridge seam. It is not a magic one-click undetected executor. The injector/pipe/payload side is stable; the Luau execution bridge inside the DLL is the part you keep current against Roblox updates.
+its not some magic undetected thing the injector and pipe stuff is done but the part that actually runs the lua inside roblox is left open for you to fill in
 
-## What you get
+## what you get
 
-- `CatVapeExternal.exe` - injector/loader. Finds `RobloxPlayerBeta.exe`, injects `CatVapeBridge.dll`, sends the embedded CatVape payload over a named pipe.
-- `CatVapeBridge.dll` - injected into Roblox. Receives the payload and hands it to `ExecuteLuau(...)`.
+- `CatVapeExternal.exe` finds roblox injects `CatVapeBridge.dll` and sends the catvape script through a pipe
+- `CatVapeBridge.dll` gets injected into roblox gets the script and sends it to `ExecuteLuau(...)`
 
-## Build (Windows)
+## how to build
 
-### Visual Studio / Build Tools
+you need cmake and visual studio build tools on windows
 
 ```bat
 cd external
 build.bat
 ```
 
-Or manually:
+or do it yourself
 
 ```bat
 cd external
@@ -26,9 +26,9 @@ cmake -S . -B build -A x64
 cmake --build build --config Release
 ```
 
-Outputs land in `external/build/bin/`.
+the files show up in `external/build/bin/`
 
-### MinGW-w64
+if you use mingw
 
 ```bat
 cd external
@@ -36,15 +36,15 @@ cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-## Use
+## how to use
 
-1. Build the project.
-2. Put `CatVapeExternal.exe` and `CatVapeBridge.dll` in the same folder.
-3. Launch Roblox and join a game.
-4. Run `CatVapeExternal.exe` as the same user (admin not required for standard LoadLibrary injection into your own-user process, but some environments may differ).
-5. The injector finds Roblox, injects the bridge DLL, and sends the embedded CatVape payload.
+1. build it
+2. put `CatVapeExternal.exe` and `CatVapeBridge.dll` in the same folder
+3. open roblox and join a game
+4. run `CatVapeExternal.exe`
+5. it should find roblox inject the dll and send the script
 
-## Project layout
+## files
 
 ```
 external/
@@ -53,46 +53,49 @@ external/
   README.md
   src/
     injector/
-      main.cpp          - CLI entrypoint
-      process.*         - Roblox process discovery
-      injector.*        - LoadLibraryW DLL injection
-      pipe_client.*     - named pipe client, sends payload
-      payload.h         - embedded CatVape-Injectable.lua (generated)
+      main.cpp          starts everything
+      process.*         finds roblox
+      injector.*        does the dll injection
+      pipe_client.*     sends the script to the dll
+      payload.h         the catvape script baked in
     bridge/
-      dllmain.cpp       - DLL entrypoint
-      bridge.*          - pipe server + payload dispatch
-      pipe.*            - named pipe server
-      execute.*         - *** EXECUTION BRIDGE SEAM ***
+      dllmain.cpp       dll start
+      bridge.*          runs the pipe and handles the script
+      pipe.*            pipe server
+      execute.*         this is the part you need to fill in
   tools/
-    embed_payload.py    - regenerates payload.h from CatVape-Injectable.lua
+    embed_payload.py    remakes payload.h from CatVape-Injectable.lua
 ```
 
-## The execution bridge seam
+## the part you gotta fill in
 
-The only part that is intentionally stubbed is `external/src/bridge/execute.cpp`.
+the only part thats not done is `external/src/bridge/execute.cpp`
 
 ```cpp
-bool ExecuteLuau(const std::string& script);
+bool ExecuteLuau(const std::string& script, std::string& outError);
 ```
 
-This function receives the full CatVape payload. You wire it to your Luau execution method (Roblox Luau VM hook, internal bridge, etc.). When Roblox updates, this is the file you touch.
+that function gets the whole catvape script
+you gotta make it run that script inside roblox
 
-The pipe/injection/payload plumbing does not need to change for that.
+when roblox updates this is probably the file you change
 
-## Regenerating the embedded payload
+the injector pipe and payload stuff should be fine
 
-If you change `src/` or rebuild the injectable, regenerate the header:
+## remake the payload
+
+if you change stuff in `src/` or rebuild the injectable run this
 
 ```bash
 python3 scripts/build_injectable.py
 python3 external/tools/embed_payload.py
 ```
 
-Then rebuild the C++ project.
+then build the c++ project again
 
-## Notes
+## notes
 
-- **Injection method**: LoadLibraryW. Simple, readable, easy to swap. If you want manual mapping, replace `injector.cpp` - the rest of the project stays the same.
-- **Payload delivery**: named pipe `\\.\pipe\CatVapeExternal`. The DLL spins up the pipe server on inject; the exe connects and sends `[u32 length][payload bytes]`.
-- **Detection surface**: this avoids shipping a known executor binary like Real/Potassium, but it is still an injector+DLL. Be smart about what you do with it. The bridge implementation you plug in determines most of the runtime behavior.
-- **No precompiled binary in this repo**: build it yourself on Windows so you know what's in it.
+- injection uses LoadLibraryW its simple and easy to swap out later if you want
+- the pipe name is `\\.\pipe\CatVapeExternal_v1`
+- this keeps you from having a known executor like real or potassium sitting around but its still an injector and dll so be smart
+- i didnt include a built exe you build it yourself on windows
