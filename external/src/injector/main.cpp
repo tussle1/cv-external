@@ -31,7 +31,7 @@ static constexpr wchar_t kPipeName[]    = L"\\\\.\\pipe\\CatVapeExternal_v1";
 static constexpr UINT WM_APP_STATUS = WM_APP + 1;
 static constexpr UINT_PTR kAnimTimerId = 1;
 static constexpr int kWidth = 620;
-static constexpr int kHeight = 400;
+static constexpr int kHeight = 360;
 
 struct UiState {
     HWND hwnd = nullptr;
@@ -109,10 +109,10 @@ static void UnloadFonts() {
 }
 
 static RECT ButtonRect(const RECT& client) {
-    int bw = 240;
-    int bh = 58;
+    int bw = 320;
+    int bh = 56;
     int cx = (client.left + client.right) / 2;
-    int cy = (client.top + client.bottom) / 2 + 45;
+    int cy = (client.top + client.bottom) / 2 + 30;
     return RECT{ cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2 };
 }
 
@@ -206,10 +206,10 @@ static void Paint(HWND hwnd) {
     // button glow
     if (hover > 0.01f) {
         Gdiplus::RectF glowR(btnRect.X - 8, btnRect.Y - 8, btnRect.Width + 16, btnRect.Height + 16);
-        DrawRoundedRect(g, glowR, 20.0f, Gdiplus::Color((int)(35 * hover * g_ui.fade), 140, 110, 255), Gdiplus::Color(0, 0, 0, 0), 0);
+        DrawRoundedRect(g, glowR, 30.0f, Gdiplus::Color((int)(35 * hover * g_ui.fade), 140, 110, 255), Gdiplus::Color(0, 0, 0, 0), 0);
     }
 
-    DrawRoundedRect(g, btnRect, 14.0f, btnFill, btnBorder, 1.0f);
+    DrawRoundedRect(g, btnRect, 28.0f, btnFill, btnBorder, 1.0f);
 
     SelectObject(mem, g_ui.fontButton);
     SetTextColor(mem, RGB(255, 255, 255));
