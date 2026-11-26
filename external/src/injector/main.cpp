@@ -30,8 +30,8 @@ static constexpr wchar_t kPipeName[]    = L"\\\\.\\pipe\\CatVapeExternal_v1";
 
 static constexpr UINT WM_APP_STATUS = WM_APP + 1;
 static constexpr UINT_PTR kAnimTimerId = 1;
-static constexpr int kWidth = 520;
-static constexpr int kHeight = 340;
+static constexpr int kWidth = 620;
+static constexpr int kHeight = 400;
 
 struct UiState {
     HWND hwnd = nullptr;
@@ -92,10 +92,10 @@ static void LoadFonts() {
     g_ui.fontResSemiBold = AddFontMemResourceEx((PVOID)kPoppinsSemiBold, (DWORD)kPoppinsSemiBoldSize, nullptr, &n2);
     g_ui.fontResBold = AddFontMemResourceEx((PVOID)kPoppinsBold, (DWORD)kPoppinsBoldSize, nullptr, &n3);
 
-    g_ui.fontTitle = MakeFont(30, FW_SEMIBOLD, L"Poppins");
-    g_ui.fontBody = MakeFont(18, FW_NORMAL, L"Poppins");
-    g_ui.fontSmall = MakeFont(14, FW_NORMAL, L"Poppins");
-    g_ui.fontButton = MakeFont(20, FW_SEMIBOLD, L"Poppins");
+    g_ui.fontTitle = MakeFont(34, FW_SEMIBOLD, L"Poppins");
+    g_ui.fontBody = MakeFont(20, FW_NORMAL, L"Poppins");
+    g_ui.fontSmall = MakeFont(15, FW_NORMAL, L"Poppins");
+    g_ui.fontButton = MakeFont(22, FW_SEMIBOLD, L"Poppins");
 }
 
 static void UnloadFonts() {
@@ -109,10 +109,10 @@ static void UnloadFonts() {
 }
 
 static RECT ButtonRect(const RECT& client) {
-    int bw = 220;
-    int bh = 54;
+    int bw = 240;
+    int bh = 58;
     int cx = (client.left + client.right) / 2;
-    int cy = (client.top + client.bottom) / 2 + 40;
+    int cy = (client.top + client.bottom) / 2 + 45;
     return RECT{ cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2 };
 }
 
