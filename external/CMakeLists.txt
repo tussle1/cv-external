@@ -32,7 +32,7 @@ endif()
 target_link_libraries(CatVapeBridge PRIVATE user32 kernel32)
 
 # --- Injector EXE ---
-add_executable(CatVapeInjector
+add_executable(CatVapeInjector WIN32
     src/injector/main.cpp
     src/injector/process.cpp
     src/injector/injector.cpp
@@ -49,7 +49,7 @@ else()
     target_link_options(CatVapeInjector PRIVATE -municode -static -static-libgcc -static-libstdc++)
 endif()
 
-target_link_libraries(CatVapeInjector PRIVATE user32 kernel32 advapi32)
+target_link_libraries(CatVapeInjector PRIVATE user32 kernel32 advapi32 gdi32 msimg32 gdiplus)
 
 # Put outputs in a predictable place
 set_target_properties(CatVapeBridge CatVapeInjector PROPERTIES
