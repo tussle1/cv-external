@@ -8,7 +8,7 @@ its not some magic undetected thing the injector and pipe stuff is done but the 
 
 ## what you get
 
-- `CatVapeExternal.exe` small ui app finds roblox injects `CatVapeBridge.dll` and sends the catvape script through a pipe
+- `CatVapeExternal.exe` small ui app finds roblox manual maps `CatVapeBridge.dll` and sends the catvape script through a pipe
 - `CatVapeBridge.dll` gets injected into roblox gets the script and sends it to `ExecuteLuau(...)`
 
 ## how to build
@@ -98,7 +98,7 @@ then build the c++ project again
 
 ## notes
 
-- injection uses LoadLibraryW its simple and easy to swap out later if you want
+- injection uses manual mapping now instead of loadlibraryw still not a guaranteed hyperion bypass but better starting point
 - the pipe name is `\\.\pipe\CatVapeExternal_v1`
 - ui uses win32 + gdi+ and embedded poppins font
 - this keeps you from having a known executor like real or potassium sitting around but its still an injector and dll so be smart
