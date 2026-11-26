@@ -16,7 +16,6 @@
 #include <filesystem>
 #include <mutex>
 #include <string>
-#include <thread>
 #include <vector>
 
 #pragma comment(lib, "gdiplus.lib")
@@ -373,7 +372,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         POINT p{ GET_X_LPARAM(lp), GET_Y_LPARAM(lp) };
         RECT rc; GetClientRect(hwnd, &rc);
         if (wasPressing && PointInRect(p, ButtonRect(rc)) && !g_ui.injecting.load()) {
-            std::thread(DoInject).detach();
+            HANDLE t = CreateThread(nullptr, 0, [](LPVOID) -> DWORD { DoInject(); return 0; }, nullptr, 0, nullptr);
+            if (t) CloseHandle(t);
         }
         return 0;
     }
