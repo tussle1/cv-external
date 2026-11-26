@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(CatVapeExternal VERSION 1.0.0 LANGUAGES CXX)
+project(CatVapeExternal VERSION 1.0.0 LANGUAGES CXX RC)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -37,6 +37,8 @@ add_executable(CatVapeInjector WIN32
     src/injector/process.cpp
     src/injector/injector.cpp
     src/injector/pipe_client.cpp
+    src/injector/payload_loader.cpp
+    src/injector/payload.rc
 )
 
 target_include_directories(CatVapeInjector PRIVATE src/injector)
