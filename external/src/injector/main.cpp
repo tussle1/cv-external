@@ -183,7 +183,7 @@ static void Paint(HWND hwnd) {
     SelectObject(mem, g_ui.fontBody);
     SetTextColor(mem, RGB(160, 160, 180));
     RECT subRc = { 0, 88, w, 118 };
-    DrawTextW(mem, L"your own injector no real no potassium", -1, &subRc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+    DrawTextW(mem, L"ported by xylen", -1, &subRc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 
     // button
     RECT br = ButtonRect(rc);
