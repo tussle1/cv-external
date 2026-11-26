@@ -2,11 +2,13 @@
 
 this is a windows project that puts the catvape script into roblox with its own injector exe and dll
 
+it has a simple ui now with animations lowercase text and poppins font
+
 its not some magic undetected thing the injector and pipe stuff is done but the part that actually runs the lua inside roblox is left open for you to fill in
 
 ## what you get
 
-- `CatVapeExternal.exe` finds roblox injects `CatVapeBridge.dll` and sends the catvape script through a pipe
+- `CatVapeExternal.exe` small ui app finds roblox injects `CatVapeBridge.dll` and sends the catvape script through a pipe
 - `CatVapeBridge.dll` gets injected into roblox gets the script and sends it to `ExecuteLuau(...)`
 
 ## how to build
@@ -42,7 +44,7 @@ cmake --build build
 2. put `CatVapeExternal.exe` and `CatVapeBridge.dll` in the same folder
 3. open roblox and join a game
 4. run `CatVapeExternal.exe`
-5. it should find roblox inject the dll and send the script
+5. press inject
 
 ## files
 
@@ -53,11 +55,12 @@ external/
   README.md
   src/
     injector/
-      main.cpp          starts everything
+      main.cpp          ui and inject flow
       process.*         finds roblox
       injector.*        does the dll injection
       pipe_client.*     sends the script to the dll
       payload.h         the catvape script baked in
+      fonts.h           poppins font baked in
     bridge/
       dllmain.cpp       dll start
       bridge.*          runs the pipe and handles the script
@@ -97,5 +100,6 @@ then build the c++ project again
 
 - injection uses LoadLibraryW its simple and easy to swap out later if you want
 - the pipe name is `\\.\pipe\CatVapeExternal_v1`
+- ui uses win32 + gdi+ and embedded poppins font
 - this keeps you from having a known executor like real or potassium sitting around but its still an injector and dll so be smart
 - i didnt include a built exe you build it yourself on windows
