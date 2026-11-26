@@ -276,7 +276,7 @@ static void DoInject() {
     }
 
     std::string err;
-    if (!cv::inject::InjectDllLoadLibrary(pid, dllPath, err)) {
+    if (!cv::inject::InjectDll(pid, dllPath, err)) {
         std::wstring werr(err.begin(), err.end());
         SetStatus(L"injection failed", werr);
         g_ui.injecting.store(false);
