@@ -5,5 +5,7 @@ external/src/injector/payload.h linguist-generated=true
 external/src/injector/fonts.h linguist-generated=true
 gui-preview.png linguist-generated=true
 
-# treat luau as lua for linguist
+# language hints
 *.luau linguist-language=Lua
+external/src/**/*.h linguist-language=C++
+external/src/**/*.cpp linguist-language=C++
