@@ -283,10 +283,18 @@ static void DoInject() {
         return;
     }
 
-    SetStatus(L"dll injected", L"sending payload to bridge...");
+    std::vector<unsigned char> payload;
+    std::string perr;
+    if (!LoadEmbeddedPayload(payload, perr)) {
+        SetStatus(L"payload missing", std::wstring(perr.begin(), perr.end()));
+        g_ui.injecting.store(false);
+        return;
+    }
+
+    SetStatus(L"sending payload...", L"talking to bridge");
 
     std::string msg;
-    bool ok = cv::pipe::SendPayload(kPipeName, kCatVapePayload, kCatVapePayloadSize, msg, 20000);
+    bool ok = cv::pipe::SendPayload(kPipeName, payload.data(), payload.size(), msg, 20000);
     std::wstring wmsg(msg.begin(), msg.end());
 
     if (ok) {
