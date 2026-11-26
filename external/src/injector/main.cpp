@@ -8,6 +8,7 @@
 #include <windowsx.h>
 #include <objidl.h>
 #include <gdiplus.h>
+#include <process.h>
 
 #include <algorithm>
 #include <atomic>
